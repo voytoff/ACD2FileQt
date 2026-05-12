@@ -4,8 +4,18 @@ ACDObject::ACDObject(QObject *parent) : QObject{parent} {
 }
 
 ACDObject::ACDObject(QList<QString> fileNames, QObject *parent) : ACDObject(parent) {
+  int n = 0;
   for (QString &fileName : fileNames) {
-    files[fileName] = new FileItem(fileName, 0, &channels, true);
+    auto file = new FileItem(fileName, n++, &channels, true);
+    connect(file, &FileItem::fileLoaded, this, [=](int index, QString fileName) { this->fileLoaded(index, fileName); });
+    files[fileName] = file;
+  }
+}
+
+void ACDObject::load() {
+  for (FileItem *file : std::as_const(files)) {
+    file->loadInfo();
+    file->loadData();
   }
 }
 

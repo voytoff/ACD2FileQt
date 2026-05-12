@@ -62,7 +62,17 @@ class ACD2FILE_EXPORT ACDObject : public QObject {
    */
   QDateTime stop();
 
-  signals:
+public slots:
+  void load();
+
+signals:
+  /**
+   * Сигнализирует об окончании операции загрузки данных
+   * @brief fileLoaded
+   * @param index
+   * @param fileName
+   */
+  void fileLoaded(int index, QString fileName); // Загружен очередной файл
 
   private:
 };

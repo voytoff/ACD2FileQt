@@ -28,7 +28,7 @@ class ChannelArray;
 class FileItem : public QObject {
   Q_OBJECT
 
-  public:
+public:
   explicit FileItem(QObject *parent = nullptr);
   explicit FileItem(ChannelArray* channelBlockArray, bool deferred = true, QObject *parent = nullptr);
   explicit FileItem(QString fileName, int index, ChannelArray* channelBlockArray, bool deferred = true, QObject *parent = nullptr);
@@ -84,19 +84,19 @@ class FileItem : public QObject {
    */
   FileACD* file();
 
-signals:
-  /**
-   * Сигнализирует об окончании операции загрузки данных
-   * @brief fileLoaded
-   * @param index
-   * @param fileName
-   */
-  void fileLoaded(int index, QString fileName); // Signal declaration
-
 private:
 
   FileACD* _file = nullptr;
 
+  /**
+   * Убирает из названия канала окончание (признак _d) дублера
+   * @brief trimChannelName
+   * @param rawChannelName
+   * @return
+   */
+  QString trimChannelName (QString rawChannelName);
+
+public slots:
   /**
    * Загружает заголовки файла
    * @brief loadInfo
@@ -109,15 +109,14 @@ private:
    */
   void loadData();
 
+signals:
   /**
-   * Убирает из названия канала окончание (признак _d) дублера
-   * @brief trimChannelName
-   * @param rawChannelName
-   * @return
+   * Сигнализирует об окончании операции загрузки данных
+   * @brief fileLoaded
+   * @param index
+   * @param fileName
    */
-  QString trimChannelName (QString rawChannelName);
-
-  signals:
+  void fileLoaded(int index, QString fileName); // Signal declaration
 };
 
 #endif // FILEITEM_H

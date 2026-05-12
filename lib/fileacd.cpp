@@ -7,6 +7,10 @@ FileACD::FileACD(const QString &name) : QFile(name) {
   } else throw new std::exception();
 }
 
+bool FileACD::seekNext(qint64 offset) {
+  return seek(pos() + offset);
+}
+
 QString FileACD::read_string(const qint64 count) {
   QByteArray data = read(count);
   QString text = decoder(data);

@@ -5,9 +5,10 @@
 #include <QDateTime>
 
 class FileACD : public QFile {
-  public:
+public:
   FileACD(const QString &name);
 
+  bool seekNext(qint64 offset);
   template <typename T> inline T get(const qint64 count) {
     T result;
     if constexpr (std::is_same_v<T, QString>) {
@@ -34,7 +35,7 @@ protected:
   ulong read_ulong(const qint64 count = 8);
   short read_short(const qint64 count = 2);
 
-  private:
+private:
   QStringDecoder decoder = QStringDecoder(QStringConverter::System); // Or "Windows-1251"
 
 };

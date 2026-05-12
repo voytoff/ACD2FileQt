@@ -14,9 +14,6 @@ FileItem::FileItem(QString fileName, int index, ChannelArray* channelBlockArray,
   : FileItem(channelBlockArray, deferred, parent) {
   this->fileName = fileName;
   this->index = index;
-
-  loadInfo();
-  loadData();
 }
 
 FileACD *FileItem::file() {
@@ -50,7 +47,7 @@ void FileItem::loadData() {
         channelBlock.dataType = (DataType)file()->get<int>(4);  // Тип данных 4 byte <- 420
         channelBlockArray->addChannel(channelBlock);
       } else {
-        file()->seek(420);  // Фиктивно дочитываем данные канала 128+256+32+4
+        file()->seekNext(420);  // Фиктивно дочитываем данные канала 128+256+32+4
       }
     } else if (blockType == dataBlockType) {
       auto dataBlock = DataBlock();
@@ -72,7 +69,7 @@ void FileItem::loadData() {
       if (dataBlock.payloadSize > 0) {                          // Данные
         if (deferred) {
           dataBlock.filePosition = file()->pos();               // Указатель на тело кадра в файле
-          file()->seek(file()->pos() + dataBlock.payloadSize);  // продвигаем указатель. Данные грузим по требованию
+          file()->seekNext(dataBlock.payloadSize);  // продвигаем указатель. Данные грузим по требованию
         } else {
           dataBlock.payload = file()->read(dataBlock.payloadSize);
           dataBlock.payloadSizeError = dataBlock.payload.length() != dataBlock.payloadSize;
@@ -81,10 +78,10 @@ void FileItem::loadData() {
     } else if (blockType == hashBlockType) {
       hashBlock.init(file());
     } else {
-      qDebug() << n << channelBlockArray->count() << blockType << file()->pos() << file()->size() << "ERROR";
+      qDebug() << n << channelBlockArray->count() << blockType << file()->pos() << file()->size() << file()->fileName() << "ERROR";
     }
-    fileLoaded(index, fileName);
   }
+  fileLoaded(index, fileName);
 } // loadData
 
 QString FileItem::trimChannelName(QString rawChannelName) {
