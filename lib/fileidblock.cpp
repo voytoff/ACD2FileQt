@@ -1,8 +1,6 @@
 #include "fileidblock.h"
 
-FileIDBlock::FileIDBlock() {
-
-}
+FileIDBlock::FileIDBlock() {}
 
 void FileIDBlock::init(FileACD *file) {
   formatID = file->get<QString>(8);          // Идентификатор формата == 8 Байт

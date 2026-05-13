@@ -8,7 +8,6 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 include_directories(../lib)
 
-#set_property(SOURCE tst_acd2test.cpp PROPERTY SKIP_AUTOMOC ON)
 set(CMAKE_AUTOMOC ON)
 
 qt_add_executable(tst_ACD2File

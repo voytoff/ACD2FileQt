@@ -11,7 +11,7 @@ qsizetype ChannelArray::count() {
 
 ChannelBlock *ChannelArray::get(std::function<bool (const ChannelBlock &)> &predicate) {
   auto it = std::find_if(this->begin(), this->end(), predicate);
-  return &it.value();
+  return it.value();
 }
 
 ChannelBlock *ChannelArray::operator[](QString name) {
@@ -28,16 +28,16 @@ bool ChannelArray::containsChannel(int id) {
   return this->contains(id);
 } // containsChannel
 
-ChannelBlock ChannelArray::addChannel(ChannelBlock channel) {
-  if (!contains(channel.channelID)) this->insert(channel.channelID, channel);
+ChannelBlock* ChannelArray::addChannel(ChannelBlock *channel) {
+  if (!contains(channel->channelID)) this->insert(channel->channelID, channel);
   return channel;
 } // addChannel
 
 void ChannelArray::addData(DataBlock* data) {
-  ChannelBlock channel = this->value(data->channelID);
-  channel.add(data);
+  ChannelBlock *channel = this->value(data->channelID);
+  channel->add(data);
   // Запишем данные канала в блок данных
-  data->channel = &channel;
+  data->channel = channel;
 } // addData
 
 QList<QString> ChannelArray::names() {
@@ -48,21 +48,21 @@ QList<QString> ChannelArray::names() {
 }
 
 QDateTime ChannelArray::start() {
-  auto it = std::min_element(values().begin(), values().end(), [](ChannelBlock &a, ChannelBlock &b) {
-    auto x = a.start();
-    auto y = b.start();
+  auto it = std::min_element(values().begin(), values().end(), [](ChannelBlock *a, ChannelBlock *b) {
+    auto x = a->start();
+    auto y = b->start();
     return x < y;
   });
-  return it->start();
+  return (*it)->start();
 }
 
 QDateTime ChannelArray::stop() {
-  auto it = std::max_element(values().begin(), values().end(), [](ChannelBlock &a, ChannelBlock &b) {
-    auto x = a.stop();
-    auto y = b.stop();
+  auto it = std::max_element(values().begin(), values().end(), [](ChannelBlock *a, ChannelBlock *b) {
+    auto x = a->stop();
+    auto y = b->stop();
     return x > y;
   });
-  return it->stop();
+  return (*it)->stop();
 }
 
 QDateTime ChannelArray::setCorrection(const QDateTime &time) {

@@ -22,7 +22,7 @@ class ACD2FILE_EXPORT ACDObject : public QObject {
    * Массив файлов обработки acd2
    * @brief files
    */
-  QHash<QString, FileItem*> files;
+  QList<FileItem*>* files;
 
   /**
    * Массив блоков информации по каналам.
@@ -30,7 +30,7 @@ class ACD2FILE_EXPORT ACDObject : public QObject {
    * и в них формируется. Пока все происходит синхронно
    * @brief channels
    */
-  ChannelArray channels;
+  ChannelArray* channels;
 
   /**
    * Возвращает канал по его имени
@@ -64,6 +64,7 @@ class ACD2FILE_EXPORT ACDObject : public QObject {
 
 public slots:
   void load();
+  void close();
 
 signals:
   /**

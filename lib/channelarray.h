@@ -10,7 +10,7 @@
  * Словарь каналов
  * @brief The ChannelArray class
  */
-class ACD2FILE_EXPORT ChannelArray : public QHash<int, ChannelBlock> // *
+class ACD2FILE_EXPORT ChannelArray : public QHash<int, ChannelBlock*>
 {
   public:
   ChannelArray();
@@ -50,7 +50,7 @@ class ACD2FILE_EXPORT ChannelArray : public QHash<int, ChannelBlock> // *
   bool containsChannel (QString name);
   bool containsChannel(int id);
 
-  ChannelBlock addChannel (ChannelBlock channel);
+  ChannelBlock *addChannel(ChannelBlock *channel);
 
   void addData (DataBlock *data);
 

@@ -5,8 +5,10 @@
 
 class ACD2FILE_EXPORT ACD2File
 {
-  public:
+public:
   ACD2File();
+
+  static double round(double value, int digits);
 };
 
 #endif // ACD2FILE_H

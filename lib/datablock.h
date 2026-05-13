@@ -7,11 +7,15 @@
 
 class ChannelBlock;
 
-class DataBlock
-{
+class ACD2FILE_EXPORT DataBlock : public QObject {
+  Q_OBJECT
 
 public:
-  explicit DataBlock();
+  explicit DataBlock(QObject *parent = nullptr);
+
+  bool operator<(const DataBlock &other) const {
+    return blockID < other.blockID;
+  }
 
   /**
    * Идентификатор структуры
@@ -91,16 +95,25 @@ public:
    * Указатель на блок канала
    * @brief channel
    */
-  ChannelBlock* channel;
+  ChannelBlock* channel = nullptr;
 
-
+  /**
+   * Возвращает массив байт блока из файла, as is
+   * @brief getPayload
+   * @return
+   */
   QByteArray getPayload();
 
+  /**
+   * Массив с данными этого блока
+   * @brief data
+   * @return
+   */
   QVector<double> data();
 
 private:
   const int dtLength (const DataType value);
-  QVector<double> _data;
+  QVector<double>* _data = nullptr;
 
 };
 

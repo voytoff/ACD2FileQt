@@ -10,6 +10,7 @@ class ACD2Test : public QObject {
   ~ACD2Test() override;
 
 private:
+  QString path = "D:/Телеметрия/Files";
   QVector<QString> getFiles(const QString &path);
 
   private slots:
@@ -21,14 +22,23 @@ ACD2Test::ACD2Test() {}
 ACD2Test::~ACD2Test() = default;
 
 void ACD2Test::test_case1() {
-  QList<QString> files(this->getFiles("D:/Пример обработки/Крыло/Пуск 1 - 19gb/"));
-  //files.append("D:/Пример обработки/Крыло/Пуск 1 - 19gb/datafile_2_55.acd");
-  //files.append("D:/Телеметрия/Files/datafile_3470_1.acd");
-  //files.append("D:/Телеметрия/УЭ3/Телеметрия/datafile_175_23.acd");
+  QList<QString> temp(this->getFiles(path));
+  QList<QString> files;
+
+  files.append(temp.first());
+
   ACDObject *acdo = new ACDObject(files, this);
   connect(acdo, &ACDObject::fileLoaded, this, [=](int index, QString fileName) { qDebug() << index << fileName; });
   acdo->load();
-  qDebug() << acdo->channels.count() << "каналов";
+  qDebug() << acdo->channels->count() << "каналов";
+  foreach (auto channel, *acdo->channels) {
+    //for (DataBlock* db : *channel->dataBlockArray) { qDebug() << db->channel->name << db->blockID; }
+    //std::sort(channel->data().begin(), channel->data().end());
+    foreach (Parameter *p, channel->data()) {
+      qDebug() << p->index << p->time.toString("dd.MM.yyyy HH:mm:ss.zzz") << p->value;
+    }
+  }
+  acdo->close();
 }
 
 QVector<QString> ACD2Test::getFiles(const QString &path) {

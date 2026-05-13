@@ -9,21 +9,23 @@ public:
   FileACD(const QString &name);
 
   bool seekNext(qint64 offset);
+  QByteArray readExt(const qint64 position, const qint64 count);
+
   template <typename T> inline T get(const qint64 count) {
     T result;
-    if constexpr (std::is_same_v<T, QString>) {
+    if constexpr (std::is_same_v<T, QString>)
       result = read_string(count);
-    } else if constexpr (std::is_same_v<T, QDateTime>) {
+    else if constexpr (std::is_same_v<T, QDateTime>)
       result = read_date(count);
-    } else if constexpr (std::is_same_v<T, double>) {
+    else if constexpr (std::is_same_v<T, double>)
       result = read_double(count);
-    } else if constexpr (std::is_same_v<T, int>) {
+    else if constexpr (std::is_same_v<T, int>)
       result = read_int(count);
-    } else if constexpr (std::is_same_v<T, ulong>) {
+    else if constexpr (std::is_same_v<T, ulong>)
       result = read_ulong(count);
-    } else if constexpr (std::is_same_v<T, short>) {
+    else if constexpr (std::is_same_v<T, short>)
       result = read_short(count);
-    } else result = T();
+    else result = T();
     return result;
   }
 

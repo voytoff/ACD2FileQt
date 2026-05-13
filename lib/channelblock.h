@@ -3,18 +3,23 @@
 
 #include "ACD2File_global.h"
 #include "datablock.h"
+#include "parameter.h"
 #include <QString>
 #include <QList>
 #include <QDateTime>
 
 //class DataBlock;
-class ACD2FILE_EXPORT ChannelBlock
-{
+class ACD2FILE_EXPORT ChannelBlock : public QObject {
+  Q_OBJECT
+
   public:
-  ChannelBlock();
+  ChannelBlock(QObject *parent = nullptr);
 
   bool operator==(const ChannelBlock &other) const {
     return channelID == other.channelID && name == other.name;
+  }
+  bool operator<(const ChannelBlock &other) const {
+    return channelID < other.channelID;
   }
 
   /**
@@ -64,7 +69,14 @@ class ACD2FILE_EXPORT ChannelBlock
    * Массив считанных блоков данных, соответствующих этому каналу
    * @brief dataBlockArray
    */
-  QList<DataBlock*> dataBlockArray;
+  QList<DataBlock*>* dataBlockArray;
+
+  /**
+   * Массив с данными этого канала. Формируется из данных всех блоков
+   * @brief data
+   * @return
+   */
+  QVector<Parameter*> data();
 
   /**
    * Время начала записи канала. Время появления первого кадра.
@@ -80,7 +92,18 @@ class ACD2FILE_EXPORT ChannelBlock
    */
   QDateTime stop();
 
+  /**
+   * Добавляет блок данных в канал
+   * @brief add
+   * @param data
+   */
   void add (DataBlock *data);
+
+public slots:
+  void sort();
+
+private:
+  QVector<Parameter*> _data;
 };
 
 #endif // CHANNELBLOCK_H
