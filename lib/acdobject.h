@@ -16,7 +16,7 @@ class ACD2FILE_EXPORT ACDObject : public QObject {
 
   public:
   explicit ACDObject(QObject *parent = nullptr);
-  explicit ACDObject(QList<QString> fileNames, QObject *parent = nullptr);
+  explicit ACDObject(QStringList fileNames, QObject *parent = nullptr);
 
   /**
    * Массив файлов обработки acd2

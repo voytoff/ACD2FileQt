@@ -5,7 +5,7 @@ ACDObject::ACDObject(QObject *parent) : QObject{parent} {
   files = new QList<FileItem*>();
 }
 
-ACDObject::ACDObject(QList<QString> fileNames, QObject *parent) : ACDObject(parent) {
+ACDObject::ACDObject(QStringList fileNames, QObject *parent) : ACDObject(parent) {
   int n = 0;
   for (const QString &fileName : fileNames) {
     FileItem *file = new FileItem(fileName, n++, channels, true);
