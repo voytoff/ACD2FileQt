@@ -43,7 +43,7 @@ QVector<Parameter *> ChannelBlock::data() {
       double deltaTime = ACD2File::round(1000 / dataBlock->frequency, 3); // шаг времени
       int zzz = 0;
       foreach (double value, dataBlock->data()) {
-        double index = deltaIndex * pos;
+        double index = deltaIndex * pos++;
         QDateTime time = dataBlock->time.addMSecs(deltaTime * zzz++);
         //qDebug() << dataBlock->blockID << time.toString("dd.MM.yyyy HH.mm.ss.zzz");
         Parameter *p = new Parameter(index, time, value);

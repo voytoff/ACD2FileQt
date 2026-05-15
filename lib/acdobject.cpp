@@ -9,7 +9,9 @@ ACDObject::ACDObject(QStringList fileNames, QObject *parent) : ACDObject(parent)
   int n = 0;
   for (const QString &fileName : fileNames) {
     FileItem *file = new FileItem(fileName, n++, channels, true);
-    connect(file, &FileItem::fileLoaded, this, [=](int index, QString fileName) { this->fileLoaded(index, fileName); });
+    connect(file, &FileItem::fileLoaded, this, [this](int index, QString fileName) {
+      emit fileLoaded(index, fileName);
+    });
     files->append(file);
   }
 }
