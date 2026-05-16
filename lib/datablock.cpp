@@ -20,9 +20,15 @@ QVector<double> DataBlock::data() {
       for (int n = 0; n < count; n++) {
         int current = n * len;
         QByteArray sub = p.mid(current, len);
-        float value;
-        std::memcpy(&value, sub.constData(), len);
-        (*_data)[n] = value;
+        if (len == 4) {
+          float value;
+          std::memcpy(&value, sub.constData(), len);
+          (*_data)[n] = value;
+        } else if (len == 8) {
+          double value;
+          std::memcpy(&value, sub.constData(), len);
+          (*_data)[n] = value;
+        } else throw std::exception(); // неверна длина
       }
     };
   }

@@ -101,6 +101,7 @@ class ACD2FILE_EXPORT ChannelBlock : public QObject {
 
 public slots:
   void sort();
+  double frequency();
 
 private:
   QVector<Parameter*> _data;
