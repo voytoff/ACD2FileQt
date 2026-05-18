@@ -28,12 +28,17 @@ enum DataType: int {
   acdtTime    = 12293 /*0x3005*/
 }; // enum DataType
 
-enum DateTimeRoundType {
+enum DateTimeRoundType: int {
   None = 2,
   EQ = 0,
   LT = -1,
   GT = 1,
 }; // DateTimeRoundType
+
+enum AxisXType : int {
+  Index = 1,
+  Time = 2,
+};
 
 const QString formatIDString          = "ACD2";
 const QString formatVersionString     = "1.0";
