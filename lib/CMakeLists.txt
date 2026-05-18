@@ -8,8 +8,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+#find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Core Core5Compat)
 
 add_library(ACD2File SHARED #STATIC
   ACD2File_global.h
@@ -29,5 +29,5 @@ add_library(ACD2File SHARED #STATIC
 )
 
 #set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-target_link_libraries(ACD2File PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(ACD2File PRIVATE Qt6::Core Qt6::Core5Compat)
 target_compile_definitions(ACD2File PRIVATE ACD2FILE_LIBRARY)
