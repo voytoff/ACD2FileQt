@@ -2,6 +2,7 @@
 #include "datablock.h"
 #include "parameter.h"
 #include "acd2file.h"
+#include "lib.h"
 
 ChannelBlock::ChannelBlock(QObject *parent) : dataBlockArray(new QList<DataBlock*>()) {
   //dataBlockArray = new QList<DataBlock*>();
@@ -38,22 +39,62 @@ double ChannelBlock::frequency() {
   return dataBlockArray ? dataBlockArray->at(0)->frequency : 0;
 }
 
-QVector<Parameter *> ChannelBlock::data() {
+QList<Parameter *> ChannelBlock::data() {
   if (_data.length() == 0 && dataBlockArray->count() > 0) {
     sort();
     int pos = 0;
     for (DataBlock *dataBlock : *dataBlockArray) {
       double deltaIndex = ACD2File::round(1.0 / dataBlock->frequency, 3); // шаг индекса
       double deltaTime = ACD2File::round(1000 / dataBlock->frequency, 3); // шаг времени
-      int zzz = 0;
+      int f = 0;
       foreach (double value, dataBlock->data()) {
         double index = deltaIndex * pos++;
-        QDateTime time = dataBlock->time.addMSecs(deltaTime * zzz++);
-        //qDebug() << dataBlock->blockID << time.toString("dd.MM.yyyy HH.mm.ss.zzz");
+        QDateTime time = dataBlock->time.addMSecs(deltaTime * f++);
         Parameter *p = new Parameter(index, time, value);
         _data.append(p);
       }
     }
   }
   return _data;
+}
+
+DataBlockArray* ChannelBlock::array(int persecond) {
+  DataBlockArray* result = nullptr;
+  if (frequencies.contains(persecond)) {
+    QVector<Parameter*> array = data();
+    int f = frequency();
+    result = new DataBlockArray(this->name, f, persecond);
+    double temp = f / persecond;      // Ищем ближайший делитель
+    int mod = (int)std::round(temp);  // он же шаг в буфере даных
+    if (mod == 0) mod = 1;            // несущая частота меньше запрошенной
+    auto repeat = (int)(1 / temp);    // число повторов значения, если частота меньше запрошенной
+    if (repeat == 0) repeat = 1;
+    auto deltaTime = 1000 / std::min(f, persecond); // шаг времени
+    double index = 0;
+    int position = 0;
+    for (int n = 0; n < array.length(); n += mod) {
+      auto parameter = array.at(n);
+      auto value = mod == 1 ? parameter->value : avg(array.mid(n, mod));
+      for (int i = 0; i < repeat; i++) {
+        auto time = parameter->time.addMSecs(deltaTime*i);
+        Parameter p = Parameter(increment(persecond, index), time, value);
+        result->append(p);
+      }
+    }
+  }
+  return result;
+}
+
+double ChannelBlock::avg(QList<Parameter*> mid) {
+  QList<double> temp;
+  temp.reserve(mid.size());
+  std::transform(mid.begin(), mid.end(), std::back_inserter(temp), [](Parameter* x) { return x->value; });
+  return lib::avg(temp);
+}
+
+double ChannelBlock::increment(int persecond, double &index, int digits) {
+  auto result = index;
+  index += lib::round(1.0 / persecond, digits);
+  index = lib::round(index, 3);
+  return result;
 }

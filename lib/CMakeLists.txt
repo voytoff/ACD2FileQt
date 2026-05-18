@@ -24,6 +24,8 @@ add_library(ACD2File SHARED #STATIC
   hashblock.h hashblock.cpp
   fileacd.h fileacd.cpp
   parameter.h parameter.cpp
+  datablockarray.h datablockarray.cpp
+  lib.cpp lib.h
 )
 
 #set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

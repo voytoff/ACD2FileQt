@@ -10,32 +10,32 @@ QByteArray DataBlock::getPayload() {
 }
 
 QVector<double> DataBlock::data() {
-  if (_data == nullptr && payloadSize > 0) {
-    _data = new QVector<double>();
+  if (rawData == nullptr && payloadSize > 0) {
+    rawData = new QVector<double>();
     auto p = getPayload();
     if (p.length() > 0) {
-      int len = dtLength(channel->dataType);
-      int count = p.length() / len;
-      _data->resize(count);
+      int len = elementLength(channel->dataType);  // длина элемента
+      int count = p.length() / len;             // число элементов
+      rawData->resize(count);
       for (int n = 0; n < count; n++) {
         int current = n * len;
         QByteArray sub = p.mid(current, len);
         if (len == 4) {
           float value;
           std::memcpy(&value, sub.constData(), len);
-          (*_data)[n] = value;
+          (*rawData)[n] = value;
         } else if (len == 8) {
           double value;
           std::memcpy(&value, sub.constData(), len);
-          (*_data)[n] = value;
+          (*rawData)[n] = value;
         } else throw std::exception(); // неверна длина
       }
     };
   }
-  return _data == nullptr ? QVector<double>() : *_data;
+  return rawData == nullptr ? QVector<double>() : *rawData;
 }
 
-const int DataBlock::dtLength(const DataType value) {
+const int DataBlock::elementLength(const DataType value) {
   switch(value ) {
     case acdtInt16:   return 2;
     case acdtFloat:   return 4;

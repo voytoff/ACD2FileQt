@@ -72,13 +72,6 @@ class ACD2FILE_EXPORT ChannelBlock : public QObject {
   QList<DataBlock*>* dataBlockArray;
 
   /**
-   * Массив с данными этого канала. Формируется из данных всех блоков
-   * @brief data
-   * @return
-   */
-  QVector<Parameter*> data();
-
-  /**
    * Время начала записи канала. Время появления первого кадра.
    * @brief getStart
    * @return
@@ -102,9 +95,19 @@ class ACD2FILE_EXPORT ChannelBlock : public QObject {
 public slots:
   void sort();
   double frequency();
+  /**
+   * Массив с данными этого канала. Формируется из данных всех блоков
+   * @brief data
+   * @return
+   */
+  QList<Parameter*> data();
+  DataBlockArray* array(int persecond);
 
 private:
   QVector<Parameter*> _data;
+  double avg(QList<Parameter*> mid);
+  double increment(int persecond, double &index, int digits = 3);
+
 };
 
 #endif // CHANNELBLOCK_H
