@@ -104,7 +104,8 @@ public slots:
   DataBlockArray* array(int persecond);
 
 private:
-  QVector<Parameter*> _data;
+  QList<Parameter*> _data;
+  QHash<int, DataBlockArray*> finalData;
   double avg(QList<Parameter*> mid);
   double increment(int persecond, double &index, int digits = 3);
 

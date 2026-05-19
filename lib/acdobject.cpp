@@ -9,6 +9,12 @@ ACDObject::ACDObject(QStringList fileNames, QObject *parent) : ACDObject(parent)
   int n = 0;
   for (const QString &fileName : fileNames) {
     FileItem *file = new FileItem(fileName, n++, channels, true);
+    connect(file, &FileItem::channelBlockRead, this, [this](QString fileName, int channelID, QString name) {
+      emit channelBlockRead(fileName, channelID, name);
+    });
+    connect(file, &FileItem::dataBlockRead, this, [this](QString fileName, int channelID, int blockID, int size) {
+      emit dataBlockRead(fileName, channelID, blockID, size);
+    });
     connect(file, &FileItem::fileLoaded, this, [this](int index, QString fileName) {
       emit fileLoaded(index, fileName);
     });

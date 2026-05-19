@@ -68,10 +68,18 @@ public slots:
 
 signals:
   /**
+   * Сигнализирует о прочтении очередного блока канала
+   * @brief channelBlockRead
+   */
+  void channelBlockRead(QString fileName, int channelID, QString name);
+  /**
+   * Сигнализирует о прочтении очередного блока данных
+   * @brief dataBlockRead
+   */
+  void dataBlockRead(QString fileName, int channelID, int blockID, int size);
+  /**
    * Сигнализирует об окончании операции загрузки данных
    * @brief fileLoaded
-   * @param index
-   * @param fileName
    */
   void fileLoaded(int index, QString fileName); // Загружен очередной файл
 

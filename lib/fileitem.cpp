@@ -30,14 +30,16 @@ void FileItem::loadInfo() {
 void FileItem::loadData() {
   int n = 0;
   QString blockType = "";
+  ChannelBlock* channelBlock;
+  DataBlock* dataBlock;
   while (blockType != hashBlockType && file()->pos() < file()->size()) {
-    if (++n % 10000 == 0) break;
+    //if (++n % 10000 == 0) break;
     //  qDebug() << n << "iteration" << file()->pos() << file()->fileName();
     blockType = file()->get<QString>(8);                        // Идентификатор структуры 8 byte
     if (blockType == channelBlockType) {
       int channelID = file()->get<int>(4);                     // Идентификатор канала 4 byte.
       if (!channelBlockArray->containsChannel(channelID)) {
-        auto channelBlock = new ChannelBlock();
+        channelBlock = new ChannelBlock();
         channelBlock->blockType = blockType;
         channelBlock->channelID = channelID;
         channelBlock->name = trimChannelName(file()->get<QString>(128));// Имя канала 128 byte
@@ -48,9 +50,11 @@ void FileItem::loadData() {
         channelBlockArray->addChannel(channelBlock);
       } else {
         file()->seekNext(420);  // Фиктивно дочитываем данные канала 128+256+32+4
+        channelBlock = channelBlockArray->value(channelID);
       }
+      emit channelBlockRead(file()->fileName(), channelID, channelBlock->name);
     } else if (blockType == dataBlockType) {
-      auto dataBlock = new DataBlock();
+      dataBlock = new DataBlock();
       dataBlock->fileItem = this;                                // Файл для чтения данных
       // Придется удерживать до завершения обработки
       // Иначе велики издержки на открытие/закрытие
@@ -75,13 +79,14 @@ void FileItem::loadData() {
           dataBlock->payloadSizeError = dataBlock->payload.length() != dataBlock->payloadSize;
         }
       }
+      emit dataBlockRead(file()->fileName(), dataBlock->channelID, dataBlock->blockID, dataBlock->payloadSize);
     } else if (blockType == hashBlockType) {
       hashBlock.init(file());
     } else {
       qDebug() << n << channelBlockArray->count() << blockType << file()->pos() << file()->size() << file()->fileName() << "ERROR";
     }
   }
-  fileLoaded(index, fileName);
+  emit fileLoaded(index, fileName);
 } // loadData
 
 QString FileItem::trimChannelName(QString rawChannelName) {

@@ -4,7 +4,9 @@
 #include "acd2file.h"
 #include "lib.h"
 
-ChannelBlock::ChannelBlock(QObject *parent) : dataBlockArray(new QList<DataBlock*>()) {
+ChannelBlock::ChannelBlock(QObject *parent)
+  : dataBlockArray(new QList<DataBlock*>())
+  , finalData() {
   //dataBlockArray = new QList<DataBlock*>();
 }
 
@@ -27,6 +29,7 @@ QDateTime ChannelBlock::stop() {
 void ChannelBlock::add(DataBlock* data) {
   if (channelID == data->channelID)
     dataBlockArray->append(data);
+  else throw std::exception();
 }
 
 void ChannelBlock::sort() {
@@ -60,6 +63,8 @@ QList<Parameter *> ChannelBlock::data() {
 
 DataBlockArray* ChannelBlock::array(int persecond) {
   DataBlockArray* result = nullptr;
+  if (finalData.contains(persecond))
+    return finalData.value(persecond);
   if (frequencies.contains(persecond)) {
     QVector<Parameter*> array = data();
     int f = frequency();
@@ -81,6 +86,7 @@ DataBlockArray* ChannelBlock::array(int persecond) {
         result->append(p);
       }
     }
+    finalData[persecond] = result;
   }
   return result;
 }

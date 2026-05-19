@@ -9,17 +9,17 @@ QByteArray DataBlock::getPayload() {
   return payload;
 }
 
-QVector<double> DataBlock::data() {
+QList<double> DataBlock::data() {
   if (rawData == nullptr && payloadSize > 0) {
     rawData = new QVector<double>();
-    auto p = getPayload();
-    if (p.length() > 0) {
+    auto buffer = getPayload();
+    if (buffer.length() > 0) {
       int len = elementLength(channel->dataType);  // длина элемента
-      int count = p.length() / len;             // число элементов
+      int count = buffer.length() / len;           // число элементов
       rawData->resize(count);
       for (int n = 0; n < count; n++) {
         int current = n * len;
-        QByteArray sub = p.mid(current, len);
+        QByteArray sub = buffer.mid(current, len);
         if (len == 4) {
           float value;
           std::memcpy(&value, sub.constData(), len);
@@ -32,7 +32,7 @@ QVector<double> DataBlock::data() {
       }
     };
   }
-  return rawData == nullptr ? QVector<double>() : *rawData;
+  return rawData == nullptr ? QList<double>() : *rawData;
 }
 
 const int DataBlock::elementLength(const DataType value) {

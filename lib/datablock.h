@@ -111,7 +111,7 @@ public:
    * @brief data
    * @return
    */
-  QVector<double> data();
+  QList<double> data();
 
   /**
    * Длина элемента в буфере данных
@@ -122,7 +122,7 @@ public:
   static const int elementLength (const DataType value);
 
 private:
-  QVector<double>* rawData = nullptr;
+  QList<double>* rawData = nullptr;
 
 };
 
