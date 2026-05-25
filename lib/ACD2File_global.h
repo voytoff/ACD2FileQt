@@ -40,6 +40,11 @@ enum AxisXType : int {
   Time = 2,
 };
 
+enum ColorScheme: int {
+  Light = 1,
+  Dark = 2,
+};
+
 const QString formatIDString          = "ACD2";
 const QString formatVersionString     = "1.0";
 
