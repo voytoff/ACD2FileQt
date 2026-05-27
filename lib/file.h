@@ -1,12 +1,12 @@
-#ifndef FILEACD_H
-#define FILEACD_H
+#ifndef FILE_H
+#define FILE_H
 
 #include <QFile>
 #include <QDateTime>
 
-class FileACD : public QFile {
+class File : public QFile {
 public:
-  FileACD(const QString &name);
+  File(const QString &name);
 
   bool seekNext(qint64 offset);
   QByteArray readExt(const qint64 position, const qint64 count);
@@ -42,4 +42,4 @@ private:
 
 };
 
-#endif // FILEACD_H
+#endif // FILE_H

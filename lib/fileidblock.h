@@ -1,7 +1,7 @@
 #ifndef FILEIDBLOCK_H
 #define FILEIDBLOCK_H
 
-#include "fileacd.h"
+#include "file.h"
 #include <QString>
 
 class FileIDBlock
@@ -19,7 +19,7 @@ class FileIDBlock
    */
   QString formatVersion;
 
-  void init(FileACD *file);
+  void init(File *file);
 };
 
 #endif // FILEIDBLOCK_H

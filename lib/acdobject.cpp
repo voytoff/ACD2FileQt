@@ -1,9 +1,9 @@
 #include "acdobject.h"
 
-ACDObject::ACDObject(QObject *parent) : QObject{parent} {
-  channels = new ChannelArray();
-  files = new QList<FileItem*>();
-}
+ACDObject::ACDObject(QObject *parent) :
+  QObject{parent}
+  , channels(new ChannelArray())
+  , files(new QList<FileItem*>()) { }
 
 ACDObject::ACDObject(QStringList fileNames, QObject *parent) : ACDObject(parent) {
   int n = 0;

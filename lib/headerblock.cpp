@@ -3,7 +3,7 @@
 
 HeaderBlock::HeaderBlock() {}
 
-void HeaderBlock::init(FileACD *file) {
+void HeaderBlock::init(File *file) {
   systemID = file->get<QString>(systemIDStringSize);               // Идентификатор системы сбора данных == 32 Байта
   softwareVersion = file->get<QString>(softwareVersionStringSize); // Версия ПО (регистратор) == 16 Байт
   startTime = file->get<QDateTime>(8);                             // Время создания файла == 8 Байт (4 + 4)

@@ -3,7 +3,7 @@
 
 HashBlock::HashBlock() {}
 
-void HashBlock::init(FileACD *file) {
+void HashBlock::init(File *file) {
   blockType = hashBlockType;
   hash = file->get<QString>(32);
 } // init

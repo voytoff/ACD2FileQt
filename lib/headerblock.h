@@ -1,7 +1,7 @@
 #ifndef HEADERBLOCK_H
 #define HEADERBLOCK_H
 
-#include "fileacd.h"
+#include "file.h"
 #include <QString>
 #include <QDateTime>
 
@@ -40,7 +40,7 @@ class HeaderBlock
    */
   float utcOffset;
 
-  void init(FileACD *file);
+  void init(File *file);
 };
 
 #endif // HEADERBLOCK_H

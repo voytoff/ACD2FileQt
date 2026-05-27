@@ -2,7 +2,7 @@
 
 FileIDBlock::FileIDBlock() {}
 
-void FileIDBlock::init(FileACD *file) {
+void FileIDBlock::init(File *file) {
   formatID = file->get<QString>(8);          // Идентификатор формата == 8 Байт
   formatVersion = file->get<QString>(8);     // Версия формата == 8 Байт
 }

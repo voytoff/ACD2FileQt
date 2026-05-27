@@ -1,7 +1,7 @@
 #ifndef HASHBLOCK_H
 #define HASHBLOCK_H
 
-#include "fileacd.h"
+#include "file.h"
 #include <QString>
 
 /**
@@ -25,7 +25,7 @@ class HashBlock
    */
   QString hash;
 
-  void init(FileACD *file);
+  void init(File *file);
 };
 
 #endif // HASHBLOCK_H

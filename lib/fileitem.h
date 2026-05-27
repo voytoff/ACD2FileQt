@@ -2,7 +2,7 @@
 #define FILEITEM_H
 #pragma once
 
-#include "fileacd.h"
+#include "file.h"
 //#include "channelarray.h"
 #include "fileidblock.h"
 #include "hashblock.h"
@@ -82,11 +82,11 @@ public:
    * @brief file
    * @return
    */
-  FileACD* file();
+  File* file();
 
 private:
 
-  FileACD* _file = nullptr;
+  File* _file = nullptr;
 
   /**
    * Убирает из названия канала окончание (признак _d) дублера

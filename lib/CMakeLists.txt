@@ -22,7 +22,7 @@ add_library(ACD2File SHARED #STATIC
   fileidblock.h fileidblock.cpp
   headerblock.h headerblock.cpp
   hashblock.h hashblock.cpp
-  fileacd.h fileacd.cpp
+  file.h file.cpp
   parameter.h parameter.cpp
   datablockarray.h datablockarray.cpp
   lib.cpp lib.h
