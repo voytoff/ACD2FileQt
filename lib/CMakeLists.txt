@@ -28,6 +28,5 @@ add_library(ACD2File SHARED #STATIC
   lib.cpp lib.h
 )
 
-#set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 target_link_libraries(ACD2File PRIVATE Qt6::Core Qt6::Core5Compat)
 target_compile_definitions(ACD2File PRIVATE ACD2FILE_LIBRARY)

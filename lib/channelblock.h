@@ -35,6 +35,7 @@ class ACD2FILE_EXPORT ChannelBlock : public QObject {
    * @brief BlockType
    */
   QString BlockType;
+
   /**
    * Числовой идентификатор канала в файле, должен быть уникальным для каждого канала.
    * Допустимо записывать сюда номера каналов в файле, например, 1, 2 ,3 и т.д.
@@ -45,26 +46,31 @@ class ACD2FILE_EXPORT ChannelBlock : public QObject {
    * @brief channelID
    */
   int channelID;
+
   /**
    * Имя канала = 128 byte
    * @brief name
    */
   QString name;
+
   /**
    * Развернутое описание канала
    * @brief description
    */
   QString description;
+
   /**
    * Единица измерения
    * @brief unit
    */
   QString unit;
+
   /**
    * Тип данных канала
    * @brief dataType
    */
   DataType dataType;
+
   /**
    * Массив считанных блоков данных, соответствующих этому каналу
    * @brief dataBlockArray
