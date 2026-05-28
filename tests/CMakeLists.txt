@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Test)
 qt_standard_project_setup(REQUIRES 6.5)
 
+set(GLOBALLIBDIR "../../GlobalLibQt")
+include_directories(${GLOBALLIBDIR})
+#add_subdirectory(${GLOBALLIBDIR} GlobalLib)
+
 include_directories(../lib)
 
 set(CMAKE_AUTOMOC ON)
@@ -19,6 +23,5 @@ qt_add_executable(tst_ACD2File
 #    WIN32_EXECUTABLE FALSE
 #)
 
-target_link_libraries(tst_ACD2File PRIVATE Qt6::Test ACD2File)
-
+target_link_libraries(tst_ACD2File PRIVATE Qt6::Test ACD2File)# GlobalLib)
 add_test(NAME ACD2Test COMMAND ACD2Test)

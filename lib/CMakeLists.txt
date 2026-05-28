@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.20)
-
 project(ACD2File LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
@@ -8,10 +7,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Core5Compat)
-find_package(Qt6 REQUIRED COMPONENTS Core Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS
+  Core
+)
 
-add_library(ACD2File SHARED #STATIC
+set(GLOBALLIBDIR "../../GlobalLibQt")
+include_directories(${GLOBALLIBDIR})
+if (NOT TARGET GlobalLib)
+    add_subdirectory(${GLOBALLIBDIR} GlobalLib)
+endif()
+
+add_library(ACD2File SHARED
   ACD2File_global.h
   acd2file.h acd2file.cpp
   acdobject.h acdobject.cpp
@@ -22,11 +28,10 @@ add_library(ACD2File SHARED #STATIC
   fileidblock.h fileidblock.cpp
   headerblock.h headerblock.cpp
   hashblock.h hashblock.cpp
-  file.h file.cpp
-  parameter.h parameter.cpp
-  datablockarray.h datablockarray.cpp
-  lib.cpp lib.h
 )
 
-target_link_libraries(ACD2File PRIVATE Qt6::Core Qt6::Core5Compat)
-target_compile_definitions(ACD2File PRIVATE ACD2FILE_LIBRARY)
+target_link_libraries(ACD2File PRIVATE
+  Qt6::Core
+  GlobalLib
+)
+target_compile_definitions(ACD2File PUBLIC ACD2FILE_LIBRARY)

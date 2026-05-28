@@ -67,40 +67,26 @@ DataBlockArray* ChannelBlock::array(int persecond) {
     return finalData.value(persecond);
   if (frequencies.contains(persecond)) {
     QVector<Parameter*> array = data();
-    int f = frequency();
+    double f = frequency();
     result = new DataBlockArray(this->name, f, persecond);
     double temp = f / persecond;      // Ищем ближайший делитель
     int mod = (int)std::round(temp);  // он же шаг в буфере даных
     if (mod == 0) mod = 1;            // несущая частота меньше запрошенной
     auto repeat = (int)(1 / temp);    // число повторов значения, если частота меньше запрошенной
     if (repeat == 0) repeat = 1;
-    auto deltaTime = 1000 / std::min(f, persecond); // шаг времени
+    auto deltaTime = 1000 / std::min((int)f, persecond); // шаг времени
     double index = 0;
     int position = 0;
     for (int n = 0; n < array.length(); n += mod) {
       auto parameter = array.at(n);
-      auto value = mod == 1 ? parameter->value : avg(array.mid(n, mod));
+      auto value = mod == 1 ? parameter->value : lib::avg(array.mid(n, mod));
       for (int i = 0; i < repeat; i++) {
         auto time = parameter->time.addMSecs(deltaTime*i);
-        Parameter p = Parameter(increment(persecond, index), time, value);
+        Parameter p = Parameter(lib::increment(persecond, index), time, value);
         result->append(p);
       }
     }
     finalData[persecond] = result;
   }
-  return result;
-}
-
-double ChannelBlock::avg(QList<Parameter*> mid) {
-  QList<double> temp;
-  temp.reserve(mid.size());
-  std::transform(mid.begin(), mid.end(), std::back_inserter(temp), [](Parameter* x) { return x->value; });
-  return lib::avg(temp);
-}
-
-double ChannelBlock::increment(int persecond, double &index, int digits) {
-  auto result = index;
-  index += lib::round(1.0 / persecond, digits);
-  index = lib::round(index, 3);
   return result;
 }

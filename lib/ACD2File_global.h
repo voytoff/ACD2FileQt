@@ -10,23 +10,13 @@
 #define ACD2FILE_EXPORT Q_DECL_IMPORT
 #endif
 
-const QString Ext = ".acd";
-const QString Pattern = "*.acd";
+const QString ext_acd = ".acd";
+const QString pattern_acd = "*.acd";
 /**
  * окончание в названии дублирующих каналов телеметрии
  * @brief channelDoubleName
  */
 const QString channelDoubleName = "_d";
-
-enum DataType: int {
-  none = 0     /*Ошибка*/,
-  acdtInt16   = 8194  /*0x2002*/,
-  acdtFloat   = 8196  /*0x2004*/,
-  acdtDouble  = 12288 /*0x3000*/,
-  acdtUChar   = 8199  /*0x2007*/,
-  acdtUInt32  = 8197  /*0x2005*/,
-  acdtTime    = 12293 /*0x3005*/
-}; // enum DataType
 
 enum DateTimeRoundType: int {
   None = 2,

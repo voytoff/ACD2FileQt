@@ -2,12 +2,10 @@
 #define DATABLOCK_H
 
 #include "ACD2File_global.h"
-#include "datablockarray.h"
 #include "fileitem.h"
 #include <QDateTime>
 
 class ChannelBlock;
-const QList frequencies({1, 10, 100});
 
 class ACD2FILE_EXPORT DataBlock : public QObject {
   Q_OBJECT

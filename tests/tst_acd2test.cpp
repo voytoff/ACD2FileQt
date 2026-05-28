@@ -43,7 +43,7 @@ void ACD2Test::test_case1() {
 
 QVector<QString> ACD2Test::getFiles(const QString &path) {
   QVector<QString> result;
-  QDirIterator it(path, QStringList() << Pattern, QDir::Files, QDirIterator::Subdirectories);
+  QDirIterator it(path, QStringList() << pattern_acd, QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext())
     result.append(it.next());
   return result;

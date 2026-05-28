@@ -3,12 +3,12 @@
 
 #include "ACD2File_global.h"
 #include "datablock.h"
+#include "datablockarray.h"
 #include "parameter.h"
 #include <QString>
 #include <QList>
 #include <QDateTime>
 
-//class DataBlock;
 class ACD2FILE_EXPORT ChannelBlock : public QObject {
   Q_OBJECT
 
@@ -112,8 +112,6 @@ public slots:
 private:
   QList<Parameter*> _data;
   QHash<int, DataBlockArray*> finalData;
-  double avg(QList<Parameter*> mid);
-  double increment(int persecond, double &index, int digits = 3);
 
 };
 
