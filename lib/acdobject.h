@@ -1,6 +1,7 @@
 #ifndef ACDOBJECT_H
 #define ACDOBJECT_H
 
+#include "ACD2File_global.h"
 #include "channelarray.h"
 #include "fileitem.h"
 #include <QObject>

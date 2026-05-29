@@ -2,11 +2,12 @@
 #define FILEITEM_H
 #pragma once
 
+#include "ACD2File_global.h"
 #include "file.h"
-//#include "channelarray.h"
 #include "fileidblock.h"
 #include "hashblock.h"
 #include "headerblock.h"
+
 #include <QObject>
 #include <QFile>
 #include <QStringConverter>
@@ -25,7 +26,7 @@ class ChannelArray;
  * <i>Для компилятора C++ все структуры хранятся со стандартным выравниванием - 8 байт</i>
  * @brief The FileItem class
  */
-class FileItem : public QObject {
+class ACD2FILE_EXPORT FileItem : public QObject {
   Q_OBJECT
 
 public:
@@ -125,6 +126,8 @@ signals:
    * @brief fileLoaded
    */
   void fileLoaded(int index, QString fileName); // Signal declaration
+
+  void progress(int pos, int max);
 };
 
 #endif // FILEITEM_H

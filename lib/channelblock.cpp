@@ -68,7 +68,7 @@ DataBlockArray* ChannelBlock::array(int persecond) {
   if (frequencies.contains(persecond)) {
     QVector<Parameter*> array = data();
     double f = frequency();
-    result = new DataBlockArray(this->name, f, persecond);
+    result = new DataBlockArray(this->name, f, persecond, unit);
     double temp = f / persecond;      // Ищем ближайший делитель
     int mod = (int)std::round(temp);  // он же шаг в буфере даных
     if (mod == 0) mod = 1;            // несущая частота меньше запрошенной

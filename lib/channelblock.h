@@ -113,6 +113,9 @@ private:
   QList<Parameter*> _data;
   QHash<int, DataBlockArray*> finalData;
 
+signals:
+  void progress(int pos, int max);
+  void dataReceived(int count);
 };
 
 #endif // CHANNELBLOCK_H
