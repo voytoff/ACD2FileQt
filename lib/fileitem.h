@@ -1,6 +1,5 @@
 #ifndef FILEITEM_H
 #define FILEITEM_H
-#pragma once
 
 #include "ACD2File_global.h"
 #include "file.h"
